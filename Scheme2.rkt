@@ -42,7 +42,13 @@ removes a vertex
 
 (define (theList L)
   (if (null? L) null
-      (car L) ))
+      (zeroDegrees L 0) ))
+
+
+(define (getVertex L num cnt)
+  (if (null? L) null
+      (if (= num cnt) (caar L)
+          (getVertex (cdr L) num (+ cnt 1)))))
 
 #||
 Sorts an DAG
@@ -50,6 +56,8 @@ Assume no infinite loops
 |#
 (define (topoSort L)
   (if (null? L) null
-      (cons (theList L) (topoSort L))))
+      (cons (getVertex myList (zeroDegrees myList 0) 0)
+      (topoSort(remove1 L (zeroDegrees L 0))))))
 
+(topoSort  '((1 2 3 4) (2 4 5) (3 6) (4 3 6 7) (5 4 7) (6) (7 6)))
        
