@@ -42,7 +42,7 @@ removes a vertex
 
 (define (theList L)
   (if (null? L) null
-      (let (M (remove1 L 
+      (car L) ))
 
 #||
 Sorts an DAG
@@ -50,6 +50,6 @@ Assume no infinite loops
 |#
 (define (topoSort L)
   (if (null? L) null
-      (cons (theList L) (topoSort M))))
+      (cons (theList L) (topoSort L))))
 
        
