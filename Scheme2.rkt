@@ -11,54 +11,45 @@ Nathan Kong #7
 CS152-01
 |||||||||||||||||||||||||||||||||#
 
-;define a counter =1
-;find a vertex with zero indegree
-;assign vertex topoNum = counter
-;remove vertex and edges
-;increase counter by one
-;repeat steps 2 to 5 as long as there is a vertex with indegree
+
+(define myList '((1 2 3 4) (2 4 5) (3 6) (4 3 6 7) (5 4 7) (6) (7 6)))
+
+;count number of times a vertex appears in the list with an incoming arrow including reference to itself
+(define (frequency allVertex vertex)               
+                     (if (null? allVertex)  0 
+                         (if (not(member (car vertex) (car allVertex))) (frequency (cdr allVertex) vertex) (+ 1 (frequency (cdr allVertex) vertex)))))
 
 
-#|||||||||||||||||||||||||
-returns which vertex 
-has 0 indegrees
-|||||||||||||||||||||||||#
-(define (vertex v x)
-  (if (> 1 (car v)) x (vertex (cdr v) (+ x 1))))
-      
-#|||||||||||||||||||||||||
-creates 2 list of
-numbers and indegrees
-|||||||||||||||||||||||||#
+;Exclude the reference to itself
+(define (numDegrees allVertex vertex) (- (frequency allVertex vertex) 1))
+
+
+;Checks how many incoming degrees are in the vertex and returns the index if there are 0
+(define (zeroDegrees myList index) (if (= (numDegrees myList (list-ref myList index)) 0) index (zeroDegrees myList (+ index 1))))
+
+
+;Call to find the 1st vertex with zero incoming edges
+;(zeroDegrees myList 0)
+
+#||
+removes a vertex
+|#
+(define (remove1 L a)
+    (if (null? L) null
+        (if (> 0 a) (cons (car L) (remove1 (cdr L) (- a 1)))
+            (if (< 0 a) (cons (car L) (remove1 (cdr L) (- a 1)))
+                (remove1 (cdr L) (- a 1))))))
+
 (define (theList L)
   (if (null? L) null
-      (cons (num L) 
-        (indegree L))))
+      (car L) ))
 
-#|||||||||||||||||||||||||
-creates a list of the
-vertices
-|||||||||||||||||||||||||#
-(define (num L)
-  (if (null? L) null
-      (cons (caar L)
-            (num (cdr L)))))
-
-#||||||||||||||||||||||||
-creates a list of indegree
-||||||||||||||||||||||||#
-(define (indegree L)
-  (if (null? L) null
-      ))
-        
-  
-#||||||||||||||||||||||||
+#||
 Sorts an DAG
 Assume no infinite loops
-|||||||||||||||||||||||#
+|#
 (define (topoSort L)
   (if (null? L) null
-      (cons (theList L); returns the removed vertex
-           )))
+      (cons (theList L) (topoSort L))))
 
        
